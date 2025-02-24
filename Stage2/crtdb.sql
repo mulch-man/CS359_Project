@@ -66,7 +66,7 @@ CREATE TABLE Member (
     address VARCHAR(100),
     age INTEGER CHECK (age >= 15),
     membershipStartDate TEXT NOT NULL, -- Start date required
-    membershipEndDate TEXT NOT NULL CHECK (timediff(membershipEndDate, membershipStartDate) > 0) -- End date after start date
+    membershipEndDate TEXT NOT NULL CHECK (julianday(membershipEndDate) > julianday(membershipStartDate)) -- End date after start date
 );
 
 -- 7. MembershipPlan Table
