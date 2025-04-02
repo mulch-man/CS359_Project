@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fec34fc-cb50-46b1-85b9-31a2535bb9d4" name="Changes" comment="Python Database Working branch">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea/CS359_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea/CS359_Project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="1fec34fc-cb50-46b1-85b9-31a2535bb9d4" name="Changes" comment="Python Interactive main file with structure declaration.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stage3/src/main/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stage3/src/main/Main.py" afterDir="false" />
     </list>
@@ -14,6 +12,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../CS359_Project\exportToHTML" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -99,7 +100,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Stage3/src/main/Main.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="3 1" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -134,7 +135,8 @@
       <workItem from="1743162963502" duration="809000" />
       <workItem from="1743563657512" duration="6000" />
       <workItem from="1743564061251" duration="681000" />
-      <workItem from="1743564753731" duration="442000" />
+      <workItem from="1743564753731" duration="626000" />
+      <workItem from="1743606348107" duration="2287000" />
     </task>
     <task id="LOCAL-00001" summary="Python Database Working branch">
       <option name="closed" value="true" />
@@ -152,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743163786484</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Python Interactive main file with structure declaration.">
+      <option name="closed" value="true" />
+      <created>1743565372436</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743565372436</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,9 +170,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Python Database Working branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="Python Database Working branch" />
+    <MESSAGE value="Python Interactive main file with structure declaration." />
+    <option name="LAST_COMMIT_MESSAGE" value="Python Interactive main file with structure declaration." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CS359_Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1743564778392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage3/src/main" />
+    <SUITE FILE_PATH="coverage/CS359_Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1743608739718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage3/src/main" />
   </component>
 </project>
