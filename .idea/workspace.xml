@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fec34fc-cb50-46b1-85b9-31a2535bb9d4" name="Changes" comment="Python and">
-      <change afterPath="$PROJECT_DIR$/Stage3/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/Main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/database/XYZGym.sqlite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/database/crtdb.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/database/insdb.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/functions/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/src/main/functions/functions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stage3/venv/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stage3/Main.py" beforeDir="false" />
+    <list default="true" id="1fec34fc-cb50-46b1-85b9-31a2535bb9d4" name="Changes" comment="Python Database Working branch">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea/CS359_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea/CS359_Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stage3/src/main/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stage3/src/main/Main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,38 +46,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Python.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/College/CS/CS359 ENMU/Group_Project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/College/CS/CS359 ENMU/Group_Project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project\Stage3" />
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\College\CS\CS359 ENMU\CS359_Project\.idea" />
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project\Stage3" />
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project" />
     </key>
@@ -104,7 +99,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Stage3/src/main/Main.py" />
-      <option name="PARAMETERS" value="1" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -136,14 +131,38 @@
       <updated>1743162746393</updated>
       <workItem from="1743162747499" duration="167000" />
       <workItem from="1743162940050" duration="17000" />
-      <workItem from="1743162963502" duration="634000" />
+      <workItem from="1743162963502" duration="809000" />
+      <workItem from="1743563657512" duration="6000" />
+      <workItem from="1743564061251" duration="681000" />
+      <workItem from="1743564753731" duration="442000" />
     </task>
+    <task id="LOCAL-00001" summary="Python Database Working branch">
+      <option name="closed" value="true" />
+      <created>1743163744780</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743163744780</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Python Database Working branch">
+      <option name="closed" value="true" />
+      <created>1743163786484</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743163786484</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Python Database Working branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Python Database Working branch" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CS359_Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1743163605772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage3/src/main" />
+    <SUITE FILE_PATH="coverage/CS359_Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1743564778392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage3/src/main" />
   </component>
 </project>
