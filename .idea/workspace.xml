@@ -4,9 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fec34fc-cb50-46b1-85b9-31a2535bb9d4" name="Changes" comment="Python Interactive main file with structure declaration.">
+    <list default="true" id="1fec34fc-cb50-46b1-85b9-31a2535bb9d4" name="Changes" comment="Python UI Remove.">
+      <change afterPath="$PROJECT_DIR$/Stage4/CS359_Project.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/Execution.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/Main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/database.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/database/XYZGym.sqlite" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/database/crtdb.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/database/insdb.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/functions/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/functions/functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/src/main/gui.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/activate" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/activate.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/activate.fish" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/activate.nu" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/activate.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/activate_this.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/deactivate.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/pip-3.12.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/pip.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/pip3.12.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/pip3.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/pydoc.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/python.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/Scripts/pythonw.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Stage4/venv/pyvenv.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea/CS359_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea/CS359_Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stage3/src/main/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stage3/src/main/Main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,34 +77,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/College/CS/CS359 ENMU/Group_Project&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Python.Main.executor": "Run",
+    "Python.gui.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/College/CS/CS359 ENMU/CS359_Project/Stage4",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\College\CS\CS359 ENMU\CS359_Project\Stage4" />
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project\Stage3" />
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project" />
     </key>
@@ -84,7 +117,7 @@
       <recent name="E:\College\CS\CS359 ENMU\CS359_Project" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.gui">
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CS359_Project" />
       <option name="ENV_FILES" value="" />
@@ -100,7 +133,30 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Stage3/src/main/Main.py" />
-      <option name="PARAMETERS" value="3 1" />
+      <option name="PARAMETERS" value="10" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CS359_Project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Stage4/src/main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Stage4/src/main/gui.py" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -110,6 +166,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gui" />
         <item itemvalue="Python.Main" />
       </list>
     </recent_temporary>
@@ -136,7 +193,11 @@
       <workItem from="1743563657512" duration="6000" />
       <workItem from="1743564061251" duration="681000" />
       <workItem from="1743564753731" duration="626000" />
-      <workItem from="1743606348107" duration="2287000" />
+      <workItem from="1743606348107" duration="2442000" />
+      <workItem from="1743804417558" duration="111000" />
+      <workItem from="1743815999879" duration="367000" />
+      <workItem from="1744067038872" duration="48000" />
+      <workItem from="1744964746260" duration="2264000" />
     </task>
     <task id="LOCAL-00001" summary="Python Database Working branch">
       <option name="closed" value="true" />
@@ -162,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743565372436</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Python UI Remove.">
+      <option name="closed" value="true" />
+      <created>1743608805569</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743608805570</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,9 +240,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Python Database Working branch" />
     <MESSAGE value="Python Interactive main file with structure declaration." />
-    <option name="LAST_COMMIT_MESSAGE" value="Python Interactive main file with structure declaration." />
+    <MESSAGE value="Python UI Remove." />
+    <option name="LAST_COMMIT_MESSAGE" value="Python UI Remove." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CS359_Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1743608739718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage3/src/main" />
+    <SUITE FILE_PATH="coverage/CS359_Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1744965191987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage3/src/main" />
+    <SUITE FILE_PATH="coverage/CS359_Project$gui.coverage" NAME="gui Coverage Results" MODIFIED="1744966872906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stage4/src/main" />
   </component>
 </project>
