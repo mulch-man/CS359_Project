@@ -9,17 +9,17 @@ def getAllMembers(return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT M.name, M.email, M.age, MP.planType 
+                SELECT M.memberId, M.name, M.email, M.age, MP.planType 
                 FROM Member M
                 LEFT JOIN Payment P ON M.memberId = P.memberId
                 LEFT JOIN MembershipPlan MP ON P.planId = MP.planId
             """)
             members = cursor.fetchall()
-            output += "Name | Email | Age | Membership Plan\n"
-            output += "-" * 50 + "\n"
+            output += "ID | Name | Email | Age | Membership Plan\n"
+            output += "-" * 70 + "\n"
             if members:
                 for member in members:
-                    output += f"{member[0]} | {member[1]} | {member[2]} | {member[3]}\n"
+                    output += f"{member[0]} | {member[1]} | {member[2]} | {member[3]} | {member[4]}\n"
             else:
                 output += "No members found.\n"
         except sqlite3.Error as error:
@@ -58,7 +58,7 @@ def getMembersByClass(classId, return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT Member.name FROM Member 
+                SELECT Member.memberId, Member.name FROM Member 
                 JOIN Attends ON Member.memberId = Attends.memberId 
                 WHERE Attends.classId = ?
             """, (classId,))
@@ -66,7 +66,7 @@ def getMembersByClass(classId, return_output=False):
             if members:
                 output += f"Members attending Class ID {classId}:\n"
                 for member in members:
-                    output += f"{member[0]}\n"
+                    output += f"ID: {member[0]} | Name: {member[1]}\n"
             else:
                 output += "No members found for the given class.\n"
         except sqlite3.Error as error:
@@ -82,12 +82,12 @@ def listEquipmentByType(equipmentType, return_output=False):
     if connection:
         cursor = connection.cursor()
         try:
-            cursor.execute("SELECT name FROM Equipment WHERE type = ?", (equipmentType,))
+            cursor.execute("SELECT equipmentId, name FROM Equipment WHERE type = ?", (equipmentType,))
             result = cursor.fetchall()
             if result:
                 output += f"-- Equipment of type {equipmentType}:\n" + "-" * 50 + "\n"
                 for row in result:
-                    output += f"{row[0]}\n"
+                    output += f"ID: {row[0]} | Name: {row[1]}\n"
             else:
                 output += "No equipment found for the given type.\n"
         except sqlite3.Error as error:
@@ -103,12 +103,12 @@ def getExpiredMemberships(return_output=False):
     if connection:
         cursor = connection.cursor()
         try:
-            cursor.execute("SELECT name FROM Member WHERE membershipEndDate < DATE('now')")
+            cursor.execute("SELECT memberId, name FROM Member WHERE membershipEndDate < DATE('now')")
             result = cursor.fetchall()
             if result:
                 output += "Expired Memberships:\n"
                 for member in result:
-                    output += f"{member[0]}\n"
+                    output += f"ID: {member[0]} | Name: {member[1]}\n"
             else:
                 output += "No expired memberships found.\n"
         except sqlite3.Error as error:
@@ -125,16 +125,16 @@ def getClassesByInstructor(instructorId, return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT className, classType, duration, classCapacity, name, phone
+                SELECT classId, className, classType, duration, classCapacity, name, phone
                 FROM Class NATURAL JOIN Instructor
                 WHERE instructorId = ?
             """, (instructorId,))
             result = cursor.fetchall()
             if result:
-                output += f"-- Classes Taught by {result[0][4]}:\n" + "-" * 65 + "\n"
-                output += f"-- Phone: {result[0][5]}\n"
+                output += f"-- Classes Taught by {result[0][5]}:\n" + "-" * 65 + "\n"
+                output += f"-- Phone: {result[0][6]}\n"
                 for row in result:
-                    output += f"Class: {row[0]}, Type: {row[1]}, Duration: {row[2]}, Capacity: {row[3]}\n"
+                    output += f"ID: {row[0]}, Class: {row[1]}, Type: {row[2]}, Duration: {row[3]}, Capacity: {row[4]}\n"
             else:
                 output += "No taught classes found by given instructor.\n"
         except sqlite3.Error as error:
@@ -175,6 +175,7 @@ def calculateAverageAge(return_output=False):
         finally:
             connection.close()
     return output if return_output else print(output)
+
 #--------------------------------------------------------------------------------------------------------------------
 def topInstructors(return_output=False):
     connection = connectDatabase()
@@ -183,7 +184,7 @@ def topInstructors(return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT name, COUNT(classId)
+                SELECT instructorId, name, COUNT(classId)
                 FROM Instructor NATURAL JOIN Class
                 GROUP BY instructorId
                 ORDER BY COUNT(classId) DESC
@@ -193,7 +194,7 @@ def topInstructors(return_output=False):
             if result:
                 output += "-- Top-Teaching Instructors:\n" + "-" * 50 + "\n"
                 for row in result:
-                    output += f"{row[0]} | Teaches: {row[1]}\n"
+                    output += f"ID: {row[0]} | Name: {row[1]} | Teaches: {row[2]}\n"
                 output += "-" * 79 + "\n"
             else:
                 output += "No results.\n"
@@ -211,7 +212,7 @@ def findMembersByClassType(classType, return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT M.name FROM Member M
+                SELECT M.memberId, M.name FROM Member M
                 WHERE NOT EXISTS (
                     SELECT C.classId FROM Class C
                     WHERE C.classType = ? AND NOT EXISTS (
@@ -224,7 +225,7 @@ def findMembersByClassType(classType, return_output=False):
             if result:
                 output += f"Members who attended all {classType} classes:\n"
                 for member in result:
-                    output += f"{member[0]}\n"
+                    output += f"ID: {member[0]} | Name: {member[1]}\n"
             else:
                 output += f"No members have attended all {classType} classes.\n"
         except sqlite3.Error as error:
@@ -250,24 +251,24 @@ def recentClassAttendance(return_output=False):
                     FROM Attends
                     GROUP BY memberId
                 )
-                SELECT name, classCount, className, classType
+                SELECT Member.memberId, name, classCount, className, classType
                 FROM Member NATURAL JOIN Recents
                 NATURAL JOIN Class NATURAL JOIN Counts
             """)
             result = cursor.fetchall()
             if result:
                 output += "-- Recent Class Attendees:\n" + "-" * 110 + "\n"
-                output += f"{'Member Name':<25} {'Total Classes Attended':<30} {'Classes Attended':<45} {'Class Types'}\n"
+                output += f"{'ID':<5} {'Member Name':<25} {'Total Classes Attended':<30} {'Classes Attended':<45} {'Class Types'}\n"
                 output += "=" * 137 + "\n"
-                info = ["", "", "", ""]
+                info = ["", "", "", "", ""]
                 for row in result:
                     if info[0] != row[0]:
                         if info[0]:
-                            output += f"{info[0]:<35} {info[1]:<20} {info[2]:<45} {info[3]}\n"
-                        info = [row[0], row[1], "", ""]
-                    info[2] += row[2] + ', '
+                            output += f"{info[0]:<5} {info[1]:<25} {info[2]:<30} {info[3]:<45} {info[4]}\n"
+                        info = [row[0], row[1], row[2], "", ""]
                     info[3] += row[3] + ', '
-                output += f"{info[0]:<35} {info[1]:<20} {info[2]:<45} {info[3]}\n"
+                    info[4] += row[4] + ', '
+                output += f"{info[0]:<5} {info[1]:<25} {info[2]:<30} {info[3]:<45} {info[4]}\n"
                 output += "-" * 137 + "\n"
             else:
                 output += "No recent class attendees.\n"
