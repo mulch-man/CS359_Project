@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkcalendar import DateEntry
 from database import connectDatabase
 from functions import *
 from functions.methods import *
+from tkinter import ttk
 
 DARK_BG = "#2b2b2b"
 TEXT_COLOR = "#e6e6e6"
@@ -19,6 +21,15 @@ class GymApp(tk.Tk):
         self.geometry("1000x800")
         self.configure(bg=DARK_BG)
         self.resizable(True, True)
+
+        # ttk style configuration
+        style = ttk.Style(self)
+        style.theme_use('default')
+        style.configure('TDateEntry',
+                        fieldbackground=ENTRY_BG,
+                        background=BUTTON_BG,
+                        foreground=TEXT_COLOR,
+                        arrowcolor=TEXT_COLOR)
 
         self.db_connection = None
         self.frames = {}
@@ -110,31 +121,132 @@ class MembersMenu(tk.Frame):
         super().__init__(parent, bg=DARK_BG)
         wrapper = CenteredFrame(self)
         wrapper.pack(fill="both", expand=True)
-        inner = wrapper.inner
+        self.inner = wrapper.inner  # <- This is the fix!
 
-        tk.Label(inner, text="Members Menu", font=('Segoe UI', 16), bg=DARK_BG, fg=TEXT_COLOR).pack(pady=10)
-        self.output = tk.Text(inner, height=20, width=100, wrap="word", bg=TEXTBOX_BG, fg=TEXTBOX_FG)
+        tk.Label(self.inner, text="Members Menu", font=('Segoe UI', 16), bg=DARK_BG, fg=TEXT_COLOR).pack(pady=10)
+        self.output = tk.Text(self.inner, height=20, width=100, wrap="word", bg=TEXTBOX_BG, fg=TEXTBOX_FG)
         self.output.pack(pady=10)
         self.output.config(state='disabled')
 
-        tk.Button(inner, text="View All Members", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="View All Members", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.show_all_members).pack(pady=2)
-        tk.Button(inner, text="Expired Memberships", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="Expired Memberships", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.show_expired_memberships).pack(pady=2)
-        tk.Button(inner, text="Average Member Age", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="Average Member Age", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.show_average_age).pack(pady=2)
-        tk.Button(inner, text="View All Membership Plans", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="View All Membership Plans", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.show_membership_options).pack(pady=2)
-        tk.Button(inner, text="Back to Main Menu", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="Back to Main Menu", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=lambda: controller.show_frame(MainMenu)).pack(pady=10)
 
-        # Implementing CRUD commands. ------------------------------------------------------------------------------------------------
-        tk.Button(inner, text="Add New Member", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="Add New Member", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.add_member).pack(pady=2)
-        tk.Button(inner, text="Edit Existing Member", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="Edit Existing Member", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.edit_member).pack(pady=2)
-        tk.Button(inner, text="Delete Existing Member", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
+        tk.Button(self.inner, text="Delete Existing Member", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.delete_member).pack(pady=2)
+
+        # Implementing CRUD commands. ------------------------------------------------------------------------------------------------
+    def add_member(self):
+        def submit():
+            try:
+                args = [entry.get() for entry in entries[:5]] + [start_date.get(), end_date.get()]
+                plan_selected = plan_var.get().split(" - ")[0] if plan_var.get() else ""
+                payment = payment_date.get()
+                args += [plan_selected, payment]
+                args += [class_entry.get(), attend_date.get()]
+
+                top.destroy()
+                newMember(args)
+            except ValueError:
+                messagebox.showerror("Invalid Input", "Please enter valid attributes.")
+
+        top = tk.Toplevel(self, height=500, width=500)
+        top.title("Member Table Editing")
+        top.configure(bg=DARK_BG)
+
+        entry_frameA = tk.Frame(top, bg=DARK_BG)
+        entry_frameA.pack(side="top", fill="x")
+        tk.Label(entry_frameA, text="Enter: Name, Email, Phone, Address, Age",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        entries = [tk.Entry(entry_frameA, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(5)]
+        for entry in entries:
+            entry.pack(side=tk.LEFT, padx=5, pady=10)
+
+        date_frame = tk.Frame(top, bg=DARK_BG)
+        date_frame.pack(side="top", fill="x")
+        tk.Label(date_frame, text="Select: Start Date and End Date",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+
+        center_date_frame = tk.Frame(date_frame, bg=DARK_BG)
+        center_date_frame.pack(anchor="center")
+
+        start_date = DateEntry(center_date_frame, background=ENTRY_BG, foreground=TEXT_COLOR, font=FONT)
+        end_date = DateEntry(center_date_frame, background=ENTRY_BG, foreground=TEXT_COLOR, font=FONT)
+        start_date.pack(side=tk.LEFT, padx=10, pady=5)
+        end_date.pack(side=tk.LEFT, padx=10, pady=5)
+
+        entry_frameB = tk.Frame(top, bg=DARK_BG)
+        entry_frameB.pack(side="top", fill="x")
+        tk.Label(entry_frameB, text="(Optional) Select Plan & Enter Payment Date",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        plan_var = tk.StringVar()
+        plan_var.set("")
+        plan_options = ["", "1 - Monthly", "2 - Annual"]
+        tk.OptionMenu(entry_frameB, plan_var, *plan_options).pack(pady=5)
+        payment_date = DateEntry(entry_frameB, background=ENTRY_BG, foreground=TEXT_COLOR, font=FONT)
+        payment_date.pack(pady=5)
+        entry_frameC = tk.Frame(top, bg=DARK_BG)
+        entry_frameC.pack(side="top", fill="x")
+        tk.Label(entry_frameC, text="Assign Class ID and Attendance Date",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        class_entry = tk.Entry(entry_frameC, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
+        class_entry.pack(pady=3)
+        attend_date = DateEntry(entry_frameC, background=ENTRY_BG, foreground=TEXT_COLOR, font=FONT)
+        attend_date.pack(pady=3)
+
+        tk.Button(top, text="Submit", command=submit, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT).pack(pady=10)
+
+    def edit_member(self):
+        def submit():
+            try:
+                memberId = idEntry.get()
+                args = [entry.get() for entry in entries[:5]]
+                args += [start_date.get(), end_date.get()]
+                plan_selected = plan_var.get().split(" - ")[0] if plan_var.get() else ""
+                args.append(plan_selected)
+                top.destroy()
+                updateMember(memberId, args)
+            except ValueError:
+                messagebox.showerror("Invalid Input", "Please enter valid attributes.")
+
+        top = tk.Toplevel(self, height=500, width=500)
+        top.title("Edit Member")
+        top.configure(bg=DARK_BG)
+        tk.Label(top, text="Enter the ID of the member to be updated.",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
+        idEntry.pack(pady=5)
+        tk.Label(top, text="Leave fields blank to keep existing values.",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        tk.Label(top, text="Enter: Name, Email, Phone, Address, Age",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(5)]
+        for entry in entries:
+            entry.pack(side=tk.TOP, padx=5, pady=3)
+        tk.Label(top, text="Select: Membership Start Date and End Date",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        start_date = DateEntry(top, background=ENTRY_BG, foreground=TEXT_COLOR, font=FONT)
+        end_date = DateEntry(top, background=ENTRY_BG, foreground=TEXT_COLOR, font=FONT)
+        start_date.pack(pady=3)
+        end_date.pack(pady=3)
+        tk.Label(top, text="Select Membership Plan (Optional)",
+                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        plan_var = tk.StringVar()
+        plan_var.set("")
+        plan_options = ["", "1 - Monthly", "2 - Annual"]
+        tk.OptionMenu(top, plan_var, *plan_options).pack(pady=3)
+        tk.Button(top, text="Submit", command=submit, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT).pack(pady=10)
 
     def show_all_members(self):
         result = getAllMembers(return_output=True)
@@ -152,69 +264,45 @@ class MembersMenu(tk.Frame):
         result = getAllMemberships(return_output=True)
         self.display(result)
 
-    # ----------------------------------------------------------------------------------------------------------------------------
-    def add_member(self):
+    def assign_class_to_member(self):
         def submit():
             try:
-                args = [entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get(),
-                        entries[5].get(), entries[6].get(), entriesB[0].get(), entriesB[1].get()]
+                member_id = member_entry.get()
+                class_id = class_entry.get()
                 top.destroy()
-                newMember(args)
+                assignMemberToClass(member_id, class_id)
             except ValueError:
-                messagebox.showerror("Invalid Input", "Please enter valid attributes.")
+                messagebox.showerror("Invalid Input", "Please enter valid Member ID and Class ID.")
 
         top = tk.Toplevel(self, height=500, width=500)
-        top.title("Member Table Editing")
+        top.title("Assign Member to Class")
         top.configure(bg=DARK_BG)
-        
-        entry_frameA = tk.Frame(top, bg=DARK_BG)
-        entry_frameA.pack(side="top", fill="x")
-        tk.Label(entry_frameA, text="Enter, respectively: Name, Email, Phone Number, Address, Age, Membership Start Date, Membership End Date", 
-                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-        entries = [tk.Entry(entry_frameA, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(7)]
-        for entry in entries:
-            entry.pack(side=tk.LEFT, padx=5, pady=30)
+        tk.Label(top, text="Enter Member ID and Class ID", bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        member_entry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
+        member_entry.pack(pady=5)
+        class_entry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
+        class_entry.pack(pady=5)
+        tk.Button(top, text="Assign", command=submit, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT).pack(pady=10)
 
-        entry_frameB = tk.Frame(top, bg=DARK_BG)
-        entry_frameB.pack(side="top", fill="x")
-        tk.Label(entry_frameB, text="(Optional) - Enter: Plan ID, Payment Date, ", 
-                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-        entriesB = [tk.Entry(entry_frameB, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(2)]
-        for entry in entriesB:
-            entry.pack(side=tk.TOP, padx=5, pady=5)
-
-        tk.Button(top, text="Submit", command=submit, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-
-    def edit_member(self):
+    def remove_member_from_class(self):
         def submit():
             try:
-                memberId = idEntry.get()
-                args = [entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get(),
-                        entries[5].get(), entries[6].get(), entries[7].get()]
+                member_id = member_entry.get()
+                class_id = class_entry.get()
                 top.destroy()
-                updateMember(memberId, args)
+                removeMemberFromClass(member_id, class_id)
             except ValueError:
-                messagebox.showerror("Invalid Input", "Please enter valid attributes.")
+                messagebox.showerror("Invalid Input", "Please enter valid Member ID and Class ID.")
 
         top = tk.Toplevel(self, height=500, width=500)
-        top.title("Member Table Editing")
+        top.title("Remove Member from Class")
         top.configure(bg=DARK_BG)
-
-        tk.Label(top, text="Enter the ID of the member to be updated.", 
-                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-        idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
-        idEntry.pack(pady=5)
-
-        #("Name,\t"+"Email,\t"+"Phone,\t"+"Address,\t"+"Age,\t"+"Membership Start,\t"+"Membership End").expandtabs(10)
-        tk.Label(top, text="Enter, respectively: Name, Email, Phone Number, Address, Age, Membership Start Date, Membership End Date, Plan ID (optional)", 
-                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-        tk.Label(top, text="Entries left empty will not update their respective attribute - they will stay the same.", 
-                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-
-        entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(8)]
-        for entry in entries:
-            entry.pack(side=tk.LEFT, padx=5)
-        tk.Button(top, text="Submit", command=submit, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        tk.Label(top, text="Enter Member ID and Class ID", bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+        member_entry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
+        member_entry.pack(pady=5)
+        class_entry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
+        class_entry.pack(pady=5)
+        tk.Button(top, text="Remove", command=submit, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT).pack(pady=10)
 
     def delete_member(self):
         def submit():
@@ -229,7 +317,7 @@ class MembersMenu(tk.Frame):
         top.title("Member Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter the ID of the member to be deleted.", 
+        tk.Label(top, text="Enter the ID of the member to be deleted.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
         idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
         idEntry.pack(pady=5)
@@ -267,12 +355,12 @@ class ClassesMenu(tk.Frame):
                   command=self.members_by_class).pack(pady=2)
         tk.Button(button_frameA, text="Members Attending All Yoga Classes", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.members_by_type).pack(pady=2)
-        
+
         tk.Button(button_frameA, text="Show All Attendance", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.show_attendance).pack(pady=20)
         tk.Button(button_frameA, text="Recent Class Attendance", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.recent_attendance).pack(pady=2)
-        
+
         # Implementing CRUD commands. ------------------------------------------------------------------------------------------------
         button_frameB = tk.Frame(inner, bg=DARK_BG)
         button_frameB.pack(side=tk.RIGHT, fill="x")
@@ -282,7 +370,7 @@ class ClassesMenu(tk.Frame):
                   command=self.edit_class).pack(pady=2)
         tk.Button(button_frameB, text="Delete Existing Class", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.delete_class).pack(pady=2)
-        
+
         tk.Button(button_frameB, text="Add Class Attendance", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.add_class_attendance).pack(pady=2)
         tk.Button(button_frameB, text="Update Class Attendance", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
@@ -290,7 +378,7 @@ class ClassesMenu(tk.Frame):
         tk.Button(button_frameB, text="Delete Class Attendance", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.delete_class_attendance).pack(pady=2)
         # ----------------------------------------------------------------------------------------------------------------------------
-        
+
         tk.Button(button_frameB, text="Back to Main Menu", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=lambda: controller.show_frame(MainMenu)).pack(pady=20)
 
@@ -364,7 +452,7 @@ class ClassesMenu(tk.Frame):
         top.title("Class Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter, respectively: Class Name, Class Type, Duration, Class Capacity, The Instructor's ID, The Gym's ID", 
+        tk.Label(top, text="Enter, respectively: Class Name, Class Type, Duration, Class Capacity, The Instructor's ID, The Gym's ID",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(6)]
@@ -384,14 +472,14 @@ class ClassesMenu(tk.Frame):
         top.title("Class Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter the ID of the class to be updated.", 
+        tk.Label(top, text="Enter the ID of the class to be updated.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
         idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
         idEntry.pack(pady=5)
 
-        tk.Label(top, text="Enter, respectively: Class Name, Class Type, Duration, Class Capacity, The Instructor's ID, The Gym's ID", 
+        tk.Label(top, text="Enter, respectively: Class Name, Class Type, Duration, Class Capacity, The Instructor's ID, The Gym's ID",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-        tk.Label(top, text="Entries left empty will not update their respective attribute - they will stay the same.", 
+        tk.Label(top, text="Entries left empty will not update their respective attribute - they will stay the same.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(6)]
@@ -413,8 +501,8 @@ class ClassesMenu(tk.Frame):
             top.title("Move Class Members")
             top.configure(bg=DARK_BG)
 
-            tk.Label(top, text="Registered members must attend a class. Enter a class ID to move this class' members to.", 
-                 bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
+            tk.Label(top, text="Registered members must attend a class. Enter a class ID to move this class' members to.",
+                     bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
             newIdEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
             newIdEntry.pack(pady=5)
 
@@ -436,7 +524,7 @@ class ClassesMenu(tk.Frame):
         top.title("Class Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter the ID of the class to be deleted.", 
+        tk.Label(top, text="Enter the ID of the class to be deleted.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
         idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
         idEntry.pack(pady=5)
@@ -457,7 +545,7 @@ class ClassesMenu(tk.Frame):
         top.title("Attendance Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter, respectively: The Member's ID, The Class ID, Attendance Date", 
+        tk.Label(top, text="Enter, respectively: The Member's ID, The Class ID, Attendance Date",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(3)]
@@ -478,7 +566,7 @@ class ClassesMenu(tk.Frame):
         top.title("Attendance Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter, respectively: The Member's ID, The New Class' ID", 
+        tk.Label(top, text="Enter, respectively: The Member's ID, The New Class' ID",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(2)]
@@ -499,7 +587,7 @@ class ClassesMenu(tk.Frame):
         top.title("Attendance Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter, respectively: The Member's ID, The Class' ID", 
+        tk.Label(top, text="Enter, respectively: The Member's ID, The Class' ID",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(2)]
@@ -529,7 +617,7 @@ class EquipmentMenu(tk.Frame):
                   command=self.show_equipment).pack(pady=2)
         tk.Button(inner, text="Back to Main Menu", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=lambda: controller.show_frame(MainMenu)).pack(pady=10)
-        
+
         # Implementing CRUD commands. ------------------------------------------------------------------------------------------------
         tk.Button(inner, text="Add New Equipment", width=40, bg=BUTTON_BG, fg=TEXT_COLOR, font=FONT,
                   command=self.add_equipment).pack(side=tk.RIGHT, padx=2)
@@ -567,7 +655,7 @@ class EquipmentMenu(tk.Frame):
         top.title("Eqipment Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter, respectively: Equipment Name, Equipment Type, Quantity of Equipment, The Gym's ID", 
+        tk.Label(top, text="Enter, respectively: Equipment Name, Equipment Type, Quantity of Equipment, The Gym's ID",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(4)]
@@ -589,14 +677,14 @@ class EquipmentMenu(tk.Frame):
         top.title("Equipment Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter the ID of the equipment to be updated.", 
+        tk.Label(top, text="Enter the ID of the equipment to be updated.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
         idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
         idEntry.pack(pady=5)
 
-        tk.Label(top, text="Enter, respectively: Equipment Name, Equipment Type, Quantity of Equipment, The Gym's ID", 
+        tk.Label(top, text="Enter, respectively: Equipment Name, Equipment Type, Quantity of Equipment, The Gym's ID",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
-        tk.Label(top, text="Entries left empty will not update their respective attribute - they will stay the same.", 
+        tk.Label(top, text="Entries left empty will not update their respective attribute - they will stay the same.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
 
         entries = [tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR) for _ in range(4)]
@@ -617,7 +705,7 @@ class EquipmentMenu(tk.Frame):
         top.title("Equipment Table Editing")
         top.configure(bg=DARK_BG)
 
-        tk.Label(top, text="Enter the ID of the equipment to be deleted.", 
+        tk.Label(top, text="Enter the ID of the equipment to be deleted.",
                  bg=DARK_BG, fg=TEXT_COLOR, font=FONT).pack(pady=5)
         idEntry = tk.Entry(top, bg=ENTRY_BG, fg=TEXT_COLOR, font=FONT, insertbackground=TEXT_COLOR)
         idEntry.pack(pady=5)

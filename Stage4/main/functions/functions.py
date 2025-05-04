@@ -9,17 +9,25 @@ def getAllMembers(return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT M.name, M.email, M.age, MP.planType 
+                SELECT M.memberId, M.name, M.email, M.age, MP.planType
                 FROM Member M
-                LEFT JOIN Payment P ON M.memberId = P.memberId
-                LEFT JOIN MembershipPlan MP ON P.planId = MP.planId
+                LEFT JOIN (
+                    SELECT P1.memberId, P1.planId
+                    FROM Payment P1
+                    WHERE P1.paymentDate = (
+                        SELECT MAX(P2.paymentDate)
+                        FROM Payment P2
+                        WHERE P2.memberId = P1.memberId
+                    )
+                ) LatestPayment ON M.memberId = LatestPayment.memberId
+                LEFT JOIN MembershipPlan MP ON LatestPayment.planId = MP.planId;
             """)
             members = cursor.fetchall()
-            output += "Name | Email | Age | Membership Plan\n"
-            output += "-" * 50 + "\n"
+            output += "ID | Name | Email | Age | Membership Plan\n"
+            output += "-" * 60 + "\n"
             if members:
                 for member in members:
-                    output += f"{member[0]} | {member[1]} | {member[2]} | {member[3]}\n"
+                    output += f"{member[0]} | {member[1]} | {member[2]} | {member[3]} | {member[4] if member[4] else 'None'}\n"
             else:
                 output += "No members found.\n"
         except sqlite3.Error as error:
@@ -58,7 +66,7 @@ def getMembersByClass(classId, return_output=False):
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                SELECT Member.name FROM Member 
+                SELECT Member.memberId, Member.name FROM Member 
                 JOIN Attends ON Member.memberId = Attends.memberId 
                 WHERE Attends.classId = ?
             """, (classId,))
@@ -66,7 +74,7 @@ def getMembersByClass(classId, return_output=False):
             if members:
                 output += f"Members attending Class ID {classId}:\n"
                 for member in members:
-                    output += f"{member[0]}\n"
+                    output += f"{member[0]} | {member[1]}\n"
             else:
                 output += "No members found for the given class.\n"
         except sqlite3.Error as error:
@@ -82,12 +90,12 @@ def listEquipmentByType(equipmentType, return_output=False):
     if connection:
         cursor = connection.cursor()
         try:
-            cursor.execute("SELECT name FROM Equipment WHERE type = ?", (equipmentType,))
+            cursor.execute("SELECT equipmentId, name FROM Equipment WHERE type = ?", (equipmentType,))
             result = cursor.fetchall()
             if result:
                 output += f"-- Equipment of type {equipmentType}:\n" + "-" * 50 + "\n"
                 for row in result:
-                    output += f"{row[0]}\n"
+                    output += f"{row[0]} | {row[1]}\n"
             else:
                 output += "No equipment found for the given type.\n"
         except sqlite3.Error as error:
@@ -103,12 +111,12 @@ def getExpiredMemberships(return_output=False):
     if connection:
         cursor = connection.cursor()
         try:
-            cursor.execute("SELECT name FROM Member WHERE membershipEndDate < DATE('now')")
+            cursor.execute("SELECT memberId, name FROM Member WHERE membershipEndDate < DATE('now')")
             result = cursor.fetchall()
             if result:
                 output += "Expired Memberships:\n"
                 for member in result:
-                    output += f"{member[0]}\n"
+                    output += f"{member[0]} | {member[1]}\n"
             else:
                 output += "No expired memberships found.\n"
         except sqlite3.Error as error:
@@ -175,6 +183,7 @@ def calculateAverageAge(return_output=False):
         finally:
             connection.close()
     return output if return_output else print(output)
+
 #--------------------------------------------------------------------------------------------------------------------
 def topInstructors(return_output=False):
     connection = connectDatabase()
